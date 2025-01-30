@@ -1,0 +1,163 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="book.css">
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <li><a href="index.html">HOME</a></li>
+        </nav>
+    </header>
+    <form action="https://formspree.io/f/xjvqaoqr" method="post">
+    <div class="booking-form">
+                <div id="booking-going-on">
+                        <h3>Book Movie Ticket</h3>
+                    <div class="input-group">
+                        <label for="">Name</label>
+                        <input id="flying-from-input" class="inp-style" type="text" name="Name" required placeholder="Enter your name">
+                    </div><br>
+                    <div class="input-group">
+                        <label for="">Email Id</label>
+                        <input id="flying-to-input" class="inp-style" type="text" name="Email" required placeholder="Enter your email id">
+                    </div><br>
+                    <div class="input-group">
+                        <label for="">Phone Number</label>
+                        <input id="flying-to-input" class="inp-style" type="number" name="Phone Number" required placeholder="Enter your phone number">
+                    </div><br>
+                    <div class="input-group">
+                        <label for="">No of Members</label>
+                        <input id="departure-input" class="inp-style" type="number" value="0" name="Number Of Members" required placeholder="">
+                    </div>
+                    <div class="input-group f-class">
+                        
+                        <label for="">Movie Name</label>
+                        
+                        <input id="first-class-count" class="inp-style inp-width" type="text" name="Movie Name" required placeholder="Enter the movie name you want to book for">
+                        
+                                                
+                    </div><br>
+                
+                    <div class="input-group f-class">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><input type="radio"></td>
+                                    <td><label>   First Class </label></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio"></td>
+                                    <td><label>   Second Class </label></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio"></td>
+                                    <td><label>   Last Class </label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="input-group f-class">
+                        <p>For seat registration <a href="seat.html"> click here</a></p>
+                    </div><br>
+                    <button id="book-now" class="btn-style">
+                        Book Now
+                    </button>
+                </div>
+                </form>
+
+                <div style="padding: 2em 0; margin: 10em 2em;" id="booking-successful">
+                    <h3 style="text-align: center;">Thank you so much!</h3>
+                    <h5 style="text-align: center; color: #e33741;">You have successfully completed your booking.<br>Enjoy the movie with your family & friends</h5>
+                    <hr>
+                <div>
+            </div>   
+             <!--Thank You-->
+    <script>
+        function handleTicketChange(ticket, isIncrease) {
+          const ticketInput = document.getElementById(ticket + "-count");
+          const ticketCount = getInputValueTicket(ticket);
+          let ticketNewCount = ticketCount;
+          if (isIncrease == true) {
+            ticketNewCount = ticketCount + 1;
+          }
+          if (isIncrease == false && ticketCount > 0) {
+            ticketNewCount = ticketCount - 1;
+          }
+          ticketInput.value = ticketNewCount;
+          let ticketTotal = 0;
+          if (ticket == "first-class") {
+            ticketTotal = ticketNewCount * 1219;
+          }
+          if (ticket == "economy") {
+            ticketTotal = ticketNewCount * 59;
+          }
+          calculateTotal();
+        }
+
+        function calculateTotal() {
+          const firstClassCount = getInputValueTicket("first-class");
+          const economyCount = getInputValueTicket("economy");
+
+          const totalPrice = firstClassCount * 150 + economyCount * 100;
+
+          document.getElementById("sub-total").innerText = "$" + totalPrice;
+
+          const tax = Math.round(totalPrice * 0.1);
+          document.getElementById("tax-amount").innerText = "$" + tax;
+
+          const grandTotal = totalPrice + tax;
+          document.getElementById("total").innerText = "$" + grandTotal;
+        }
+
+        function getInputValueTicket(ticket) {
+          const ticketInput = document.getElementById(ticket + "-count");
+          const ticketCount = parseInt(ticketInput.value);
+          
+          return ticketCount;
+        }
+
+        document.getElementById("book-now").addEventListener("click", function(){
+            document.getElementById("booking-going-on").style.display = "none";
+            document.getElementById("booking-successful").style.display = "block";
+
+            getInputValueFlying("flying-from");
+            getInputValueFlying("flying-to");
+            getInputValueDate("departure");
+            getInputValueDate("return");
+            getCurrentTicketCount("first-class-count");
+            getCurrentTicketCount("economy-count");
+            getCurrentTotalCost("total");
+        });
+
+        function getInputValueFlying(status){
+            const updatedStatus = document.getElementById(status + "-input").value
+            if(updatedStatus != ""){
+                document.getElementById(status + "-final-view").innerText = updatedStatus;
+            }
+            else{
+                document.getElementById(status + "-final-view").innerText = "invalid";
+            }
+        }
+
+        function getInputValueDate(status){
+            const dateEntered = document.getElementById(status + "-input").value;
+            const updatedDate = new Date(dateEntered);
+            console.log(dateEntered);
+            document.getElementById(status + "-final-view").innerText = updatedDate;
+        }
+
+        function getCurrentTicketCount(status){
+            const updatedStatus = document.getElementById(status).value;
+            document.getElementById(status + "-final-view").innerText = updatedStatus;
+        }
+
+        function getCurrentTotalCost(status){
+            const updatedStatus = document.getElementById(status).innerText;
+            document.getElementById(status + "-final-view").innerText = updatedStatus;
+        }
+    </script>
+</body>
+</html>
